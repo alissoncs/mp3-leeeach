@@ -6,7 +6,7 @@ MP3 # Loop 128k converter
 
 ###Installing
 ```
-chmod +x leeeach
+sudo chmod +x leeeach
 sudo cp leeeach /usr/bin/leeeach
 ```
 
