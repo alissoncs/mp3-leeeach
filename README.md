@@ -12,7 +12,10 @@ sudo cp leeeach /usr/bin/leeeach
 
 ###Running
 ```
-leeeach /convert/files/to/path/
+leeeach [OPTIONS]
 ```
 
-Note: All the mp3 and wav files will be converted and pasted at the destinity directory, with 128k (ready for copy to your cellphone with a little size) :) 
+###Help
+```
+leeeach --help
+```
