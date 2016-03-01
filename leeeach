@@ -10,12 +10,12 @@ only=0
 
 function _help
 {
-	echo "Instruções:"
-	echo "	-d | --delete	Deleta os arquivos originais após a conversão"
-	echo "	-f | --folder	Define a pasta de destino dos arquivos (deve ser enviada como parâmetro o caminho da pasta)"
-	echo "	-r | --replace	Substitui os arquivos originais pelos arquivos convertidos"
-	echo "	-o | --only	Mantém somente os arquivos convertido. Obs: só tem efeito junto com o parâmetro '-r'."
-	echo "	-h | --help	Exibe as instruções disponíveis"
+	echo "Instructions:"
+	echo "	-d | --delete Remove the original files after the conversion process is finished"
+	echo "	-f | --folder Assign a folder to save converted files"
+	echo "	-r | --replace Replace old files by converted files"
+	echo "	-o | --only	Keep the original files, depends on replace mode enable"
+	echo "	-h | --help	Help"
 }
 
 while [[ "$1" != "" ]]; do
@@ -31,9 +31,9 @@ while [[ "$1" != "" ]]; do
 			directory="$1"
 			if [ -d "$directory" ]
 			then
-			   echo "Diretório encontrado."
+			   echo "Directory not found."
 			else
-			   echo "Diretório não existe ou não foi enviado ($directory)"
+			   echo "Directory is not assigned or not found ($directory)"
 			   exit 1
 			fi
 			shift
@@ -52,7 +52,7 @@ while [[ "$1" != "" ]]; do
 			exit
 			;;
 		* )
-			echo "Comando '$1' desconhecido. Use '-h' para ver a lista de comandos."
+			echo "Command '$1' unprocessable"
 			exit 
 			;;
 	esac
@@ -62,7 +62,7 @@ if [[ $folder = 0 ]]; then
 	mkdir "$directory" || exit $?
 fi
 
-echo "####   Iniciando conversão dos arquivos   ####"
+echo "#### Conversion started...   ####"
 
 for file in "$current"/*; do
 
@@ -76,7 +76,7 @@ for file in "$current"/*; do
 		echo "---------------------------------------------------------------------"
 		echo "INPUT: $file"
 		echo "OUTPUT: $directory/$name.mp3"
-		echo "Convertendo..."
+		echo "Waiting..."
         ffmpeg -loglevel panic -i "$file" -vn -ar 44100 -ac 2 -ab 128k -f mp3 "$directory/$name.mp3"
    		
    		status=$?
@@ -87,9 +87,9 @@ for file in "$current"/*; do
 	   				cp "$directory/$name.mp3" "$current/$name.mp3"
 	   			fi
    			fi
-   			echo "Convertido"
+   			echo "Finished"
    		else
-   			echo "Houve um erro ao converter '$name.mp3'."
+   			echo "There an error to convert '$name.mp3'."
    		fi
 
    	fi
@@ -102,5 +102,5 @@ if [[ $replace = 1 && $only = 1 ]]; then
 	rm -rf "$directory"
 fi
 
-echo "####   Finalizado   ####"
+echo "####   All finished   ####"
 exit
